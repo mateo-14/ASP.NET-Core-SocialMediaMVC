@@ -14,14 +14,14 @@ window.addEventListener('load', () => {
     })
 })
 function likePost(postId, signal) {
-    return fetch(`/posts/likes/${postId}`, {
+    return fetch(`/posts/${postId}/likes`, {
         method: 'POST',
         signal
     })
 }
 
 function unlikePost(postId, signal) {
-    return fetch(`/posts/likes/${postId}`, {
+    return fetch(`/posts/${postId}/likes`, {
         method: 'DELETE',
         signal
     })

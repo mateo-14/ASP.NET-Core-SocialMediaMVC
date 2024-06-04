@@ -59,14 +59,14 @@ namespace SocialMediaMVC.Controllers
             return RedirectToAction("Index", new { id = post.Id });
         }
 
-        [HttpPost("posts/likes/{id}")]
+        [HttpPost("posts/{id}/likes")]
         [Authorize]
         public async Task<IActionResult> AddLike(int id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId is null)
             {
-                return Redirect("/Identity/Account/Login");
+                return Unauthorized();
             }
 
             var added = await _postsService.AddLike(id, userId);
@@ -78,14 +78,14 @@ namespace SocialMediaMVC.Controllers
             return NoContent();
         }
 
-        [HttpDelete("posts/likes/{id}")]
+        [HttpDelete("posts/{id}/likes")]
         [Authorize]
         public async Task<IActionResult> RemoveLike(int id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId is null)
             {
-                return Redirect("/Identity/Account/Login");
+                return Unauthorized();
             }
 
             var removed = await _postsService.RemoveLike(id, userId);
