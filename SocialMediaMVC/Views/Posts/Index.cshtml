@@ -1,0 +1,19 @@
+﻿@model SocialMediaMVC.Models.PostDto
+@{
+    ViewData["Title"] = Model is null ? "Not found post" : Model.Content;
+}
+
+<div class="d-flex pt-3">
+    @if (Model is null)
+    {
+        <div>Not found post</div>
+    }
+    else
+    {
+        @(await Html.PartialAsync("_PostPartial", Model))
+    }
+</div>
+
+@section Scripts {
+    <script src="~/js/posts.js" asp-append-version="true"></script>
+}

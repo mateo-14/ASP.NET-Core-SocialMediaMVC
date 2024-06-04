@@ -1,0 +1,45 @@
+﻿@model SocialMediaMVC.ViewModels.CreatePostViewModel
+@{
+    ViewData["Title"] = "Create Post";
+}
+
+<section>
+    <h1>Create Post</h1>
+    <hr />
+    <form asp-action="Create" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div>
+            <label asp-for="Content" control-label"></label>
+            <input asp-for="Content" class="form-control" />
+            <span class="text-danger"></span>
+        </div>
+        <div class="mt-3">
+            <label asp-for="Images" control-label"></label>
+            <input asp-for="Images" class="form-control" type="file" multiple accept="image/*" />
+            <span class="text-danger"></span>
+        </div>
+        <div class="mt-4">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </form>
+
+    <script>
+        const createPostForm = document.querySelector('[action="/posts/create"]')
+        createPostForm.addEventListener('submit', (e) => {
+            const contentInput = createPostForm.querySelector('[name="Content"]')
+            const imagesInput = createPostForm.querySelector('[name="Images"]')
+            if (contentInput.value.trim()) {
+                return
+            }
+
+            if (imagesInput.files.length > 0) {
+                return
+            }
+
+            // Form is valid only if either content or images are provided, or both
+            contentInput.focus()
+            contentInput.nextElementSibling.textContent = 'Content or images are required'
+            e.preventDefault()
+        }) 
+    </script>
+</section>

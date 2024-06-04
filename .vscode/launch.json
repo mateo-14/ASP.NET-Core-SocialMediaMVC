@@ -1,0 +1,17 @@
+{
+  "configurations": [
+    {
+      "name": "C#: SocialMediaMVC [Default Configuration]",
+      "type": "dotnet",
+      "request": "launch",
+      "projectPath": "${workspaceFolder}\\SocialMediaMVC\\SocialMediaMVC.csproj"
+    },
+    {
+      "name": "C#: SocialMediaMVC [http]",
+      "type": "dotnet",
+      "request": "launch",
+      "projectPath": "${workspaceFolder}\\SocialMediaMVC\\SocialMediaMVC.csproj",
+      "launchConfigurationId": "TargetFramework=;http"
+    }
+  ]
+}
