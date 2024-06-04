@@ -11,5 +11,7 @@ namespace SocialMediaMVC.Services.UsersService
         /// <param name="clientId">An optional param. Used to determine if the user is followed by the client, if the client is following the user and if the posts are liked by the client.</param>
         /// <returns></returns>
         public Task<UserDto?> GetUserByUserName(string userName, string? clientId = null);
+        public Task<bool> AddFollow(string userId, string clientId);
+        public Task<bool> RemoveFollow(string userId, string clientId);
     }
 }

@@ -32,4 +32,22 @@
 
         observer.observe(document.querySelector('#end-of-posts'))
     }
+
+    const followBtn = document.querySelector('button[data-following]')
+    const totalFollowers = document.querySelector('#total-followers')
+    followBtn.addEventListener('click', async () => {
+        followBtn.disabled = true
+        const following = followBtn.getAttribute('data-following') === 'true'
+        const userId = followBtn.getAttribute('data-user-id')
+        const response = await fetch(`/users/${userId}/followers`, {
+            method: following ? 'DELETE' : 'POST',
+        })
+
+        if (response.ok) {
+            followBtn.setAttribute('data-following', !following)
+            followBtn.textContent = following ? 'Follow' : 'Unfollow'
+            followBtn.disabled = false
+            totalFollowers.textContent = `${parseInt(totalFollowers.textContent) + (following ? -1 : 1)} followers`
+        }
+    })
 })

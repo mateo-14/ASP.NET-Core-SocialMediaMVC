@@ -18,7 +18,7 @@
     <div class="ms-5">
         <h1>@Model.UserName</h1>
         <div class="d-flex gap-4 fw-semibold">
-            <p>@Model.TotalFollowers followers</p>
+            <p id="total-followers">@Model.TotalFollowers followers</p>
             <p>@Model.TotalFollowing following</p>
         </div>
         <div class="d-flex gap-3">
@@ -30,11 +30,11 @@
             {
                 @if (Model.IsFollowedByClient)
                 {
-                    <button class="btn btn-primary">Unfollow</button>
+                    <button class="btn btn-primary" data-user-id="@Model.Id" data-following="true">Unfollow</button>
                 }
                 else
                 {
-                    <button class="btn btn-primary">Follow</button>
+                    <button class="btn btn-primary" data-user-id="@Model.Id" data-following="false">Follow</button>
                 }
             }
         </div>
@@ -67,6 +67,13 @@
     </template>
     @section Scripts {
     <script src="~/js/posts.js" asp-append-version="true"></script>
+    <script src="~/js/profile.js" asp-append-version="true"></script>
+
+    }
+}
+else
+{
+    @section Scripts {
     <script src="~/js/profile.js" asp-append-version="true"></script>
     }
 }

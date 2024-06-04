@@ -8,9 +8,12 @@ namespace SocialMediaMVC.Services.UsersService
     public class UsersService : IUsersService
     {
         private readonly ApplicationDbContext _context;
-        public UsersService(ApplicationDbContext context)
+        private readonly ILogger<UsersService> _logger;
+
+        public UsersService(ApplicationDbContext context, ILogger<UsersService> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public async Task<UserDto?> GetUserByUserName(string userName, string? clientId = null)
@@ -48,6 +51,63 @@ namespace SocialMediaMVC.Services.UsersService
                 }).FirstOrDefaultAsync(u => u.UserName == userName);
 
             return user;
+        }
+
+        public async Task<bool> AddFollow(string userId, string clientId)
+        {
+            var client = new User
+            {
+                Id = clientId
+            };
+
+            var user = new User
+            {
+                Id = userId,
+                Followers = new List<User>()
+            };
+
+            _context.Attach(client);
+            _context.Attach(user);
+            user.Followers.Add(client);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while adding a follow");
+                return false;
+            }
+        }
+
+        public async Task<bool> RemoveFollow(string userId, string clientId)
+        {
+            var client = new User
+            {
+                Id = clientId
+            };
+
+            var user = new User
+            {
+                Id = userId,
+                Followers = new List<User>() { client }
+            };
+
+            _context.Attach(user);
+            user.Followers.Remove(client);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while removing a follow");
+                return false;
+            }
         }
     }
 }
